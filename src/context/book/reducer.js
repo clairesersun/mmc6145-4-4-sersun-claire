@@ -3,17 +3,22 @@ import {
   ADD_BOOK,
   REMOVE_BOOK,
   SEARCH_BOOKS 
-} from '/actions.js'
+} from './actions.js'
 
 export default function reducer(prevState, {action, payload}) {
-  const {books} = prevState
+  const {favoriteBooks} = prevState
+  let newFavoriteBooks
   switch(action) {
     case ADD_BOOK:
-      return {...prevState, books: saveToLocalStorage(books.push(payload))} 
+      newFavoriteBooks = [...favoriteBooks, payload]
+      saveToLocalStorage(newFavoriteBooks)
+      return {...prevState, favoriteBooks: newFavoriteBooks} 
     case REMOVE_BOOK:
-      return {...prevState, books: saveToLocalStorage(books.filter(book => book.id != payload.id))} 
+      newFavoriteBooks = favoriteBooks.filter(book => book.id != payload)
+      saveToLocalStorage(newFavoriteBooks)
+      return {...prevState, favoriteBooks: newFavoriteBooks} 
     case SEARCH_BOOKS:
-      return {...prevState}
+      return {...prevState, bookSearchResults: payload}
     default:
       return prevState
   }
@@ -23,3 +28,4 @@ export default function reducer(prevState, {action, payload}) {
 function saveToLocalStorage(favBooks) {
   localStorage.setItem('favoriteBooks', JSON.stringify(favBooks))
 }
+

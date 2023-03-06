@@ -5,13 +5,12 @@
 // favoriteBooks should be the value from localStorage or an empty array if localStorage value is falsy √
 
 function books() {
-    if (!JSON.parse(localStorage.getItem('favoriteBooks'))) return []
-    else return JSON.parse(localStorage.getItem('favoriteBooks'))
+    return JSON.parse(localStorage.getItem('favoriteBooks')) || []
 }
 
 const initialState = {
     bookSearchResults: [], 
-    favoriteBooks: books
+    favoriteBooks: books()
 }
 
 export default initialState
